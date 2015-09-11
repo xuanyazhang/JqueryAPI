@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>jquery属性</title>
+	<meta  http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+	<style type="text/css">
+		*{
+			margin:0 auto;
+			padding:0 auto;
+			text-decoration: none;
+			list-style:none;
+		}
+
+		.title,form,.map,.parents,.add{
+			margin:0 auto;
+			margin-top:20px;
+			text-align:center;
+			min-height:50px;
+			line-height:50px;
+			width:90%;
+            -webkit-box-shadow: 0 0 10px lightgrey;
+		    -moz-box-shadow: 0 0 10px lightgrey;
+		    box-shadow: 0 0 10px lightgrey;
+		    -webkit-border-radius: 4px;
+		    -moz-border-radius: 4px;
+		    border-radius: 4px;	 
+		}
+        
+        fieldset{
+        	border:none;
+        }
+        .show{
+        	font:24px "微软雅黑";
+        }
+
+	</style>
+</head>
+<body>
+	<div class="title">属性</div>
+	<form method="post" action="">
+	  <fieldset>
+	    <div>
+	      <label for="two">2</label>
+	      <input type="checkbox" value="2" id="two" name="number[]">
+	    </div>
+	    <div>
+	      <label for="four">4</label>
+	      <input type="checkbox" value="4" id="four" name="number[]">
+	    </div>
+	    <div>
+	      <label for="six">6</label>
+	      <input type="checkbox" value="6" id="six" name="number[]">
+	    </div>
+	    <div>
+	      <label for="eight">8</label>
+	      <input type="checkbox" value="8" id="eight" name="number[]">
+	    </div>
+	  </fieldset>
+    </form>
+
+    <div class="map"></div>
+    
+    <div class="parents">
+    	<ul class="ul">
+    		<li>生活</li>
+    		<li>工作</li>
+    	</ul>
+    </div>
+
+    <script type="text/javascript" src="jquery-1.8.2.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+        	//监听窗口大小改变事件
+        	$(window).resize(function(){
+        		$(".title").toggleClass("show");
+        		$(".title").text("height:"+$(".title").height()+",    innerHeight:"+$(".title").innerHeight()+",      outerHeight:"+$(".title").outerHeight()+",      outerHeightTrue:"+$(".title").outerHeight(true));
+        	})
+           $(".map").text($(':checkbox').map(function() {
+		      return $(this).prev().text();		     
+		    }).get().join());
+           
+           //on绑定事件的两种方式，一种是通过events和handdler方式，一种是通过由这两个构成的plainObject形式
+           $(".parents").on("click.attribute","ul",function(e){
+           	   //此时$(this)指代的是后代元素
+           	  $("body").append("<div class='add'></div>");
+           	  $(this).append("<li>"+e.currentTarget+"</li>");
+           }).on({"mouseenter.attributes":function(e){$(this).css("fontFamily","微软雅黑")}},"ul");
+               //此时$(this)指代的是后代元素
+           
+           $("body").on("click dblclick",".add",function(e){
+           		$(this).text("hello world");
+           });
+
+        })
+    </script>
+</body>
+</html>

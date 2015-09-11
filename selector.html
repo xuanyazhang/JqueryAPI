@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>jquery选择器</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+        *{
+        	padding:0 auto;
+        	margin:0 auto;
+        	list-style:none;
+            text-decoration:none;
+        }
+
+        body{
+        	width:1280px;  
+		    -webkit-box-shadow: 0 0 10px lightgrey;
+		    -moz-box-shadow: 0 0 10px lightgrey;
+		    box-shadow: 0 0 10px lightgrey;
+		    -webkit-border-radius: 4px;
+		    -moz-border-radius: 4px;
+		    border-radius: 4px;	
+            padding-bottom:20px;  
+        }
+
+        h1,h2{
+            text-align:center;
+        }
+
+        .nav,.header,.check,.url,#targets{
+        	margin:0 auto;
+        	width:200px;
+        	background:#75c44f;
+        }
+
+        .header,.check,.url,#targets{
+            text-align:center;
+            margin-bottom:20px;
+        }
+
+        #ul li{
+			display:block;
+			margin:10px;
+			border-bottom:1px solid #000;
+        	margin-left:20px;			
+        }
+
+        .menu {
+        	margin:10px;
+        	text-align:center;
+        	height:40px;
+        	line-height:40px;
+        	border:1px solid #000;
+        }
+
+        #ul{
+        	display:none;       	
+        }
+    </style>
+</head>
+<body>
+    <h1>jQuery API测试样例</h1>
+    <h2>菜单类测试</h2>
+
+    <div class="nav">
+    	<div class="menu">机场气象</div>
+    		<ul id="ul">
+    		   <li>气象图</li>
+    		   <li>雷达图</li>
+    		   <li>预报图</li>
+    		</ul>
+    	<div class="menu">航旅天眼</div>
+    		<ul id="ul">
+               <li>国内航班</li>
+    		   <li>国际航班</li>
+    		</ul>
+    	<div class="menu">机场设备</div>
+    		<ul id="ul">
+			   <li>停用</li>
+    		   <li>故障</li>
+    		   <li>备用</li>
+    		   <li>正常</li>
+    		</ul>
+    	<div class="menu">全国动态</div>
+    		<ul id="ul" style="display:block">
+               <li>北京</li>
+               <li>上海</li>
+               <li>广州</li>
+			   <li>深圳</li>
+			   <li>成都</li>
+			   <li>天津</li>
+    		</ul>
+    </div>
+
+    <div class="header">
+        <h3>USA</h3>
+        <div lang="en-us">red
+          <div>white
+            <div>and blue</div>
+          </div>
+        </div>
+        <h3>España</h3>
+        <div lang="es-es">rojo
+          <div>amarillo
+            <div>y rojo</div>
+          </div>
+        </div>
+    </div>
+    
+    <form class="check">
+        <div>
+          <input type="checkbox" name="a" />
+          <span>Mary</span>
+        </div>
+         
+        <div>
+          <input type="checkbox" name="b" />
+          <span>lcm</span>         
+        </div>
+        <div>
+          <input type="checkbox" name="c" />        
+          <span>Peter</span>
+        </div>
+    </form>
+
+    <div class="url">
+        <a href="#">航旅纵横官网</a>
+    </div>
+     
+    <div id="targets">
+        <table border="1">
+          <tr><td>姓名</td><td>性别</td></tr>
+          <tr><td>张三</td><td>男</td></tr>
+        </table>
+    </div>
+    <script type="text/javascript" src="jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="common.js"></script>
+    <script type="text/javascript">
+    	$(function(){
+    		$(".menu").click(function(){
+    			$(this).next("#ul").slideToggle(300).siblings("#ul").slideUp(500);
+    		})
+
+
+            self.setInterval("changeit()", 1000);
+            
+            //下面的选择器为虚类选择器，选择器元素为并列的重复元素才行，从并列的元素中选出相应的来
+            //首先声明：在API中真正的selector是指 "筛选条件" 不包含$()符号
+            //筛选元素的接口即以":"开头的选择器的前缀是selector  $("selector:first()") 从选中的元素中筛选出符合条件的元素
+            //:first-child这种带“-”的子元素筛选器必须是不在包含子元素的元素，
+
+    		$(".menu").eq(2).css("color","red"); //选择第几个重复元素，==$(".menu:eq(3)").css("color","red");注意：.eq()和:eq()作用到元素及其子元素上，前者性能更好
+            $(".menu").filter(":even").css("background","grey"); //选择奇数元素==$(".menu:even").css("background","yellow"); 前者性能更好   :odd为偶数元素
+            $("ul").filter(":first").css("font-size","24px");  //选择第一个重复元素==$(".menu:first").css("font-size","24px"); 前者性能更好  同理  :last 为最后一个
+            $("li:last-of-type").css("color","white");
+            $(".menu").slice(1).css("fontFamily","微软雅黑");  //选择该元素及其以后的重复元素==$(".menu:gt(1)").css("fontFamily","微软雅黑");  包含当前索引元素，前者性能更好
+            $(".menu").slice(0,1).css("fontFamily","黑体"); //选择该元素以前的重复元素==$(".menu:lt(1)").css("fontFamily","微软雅黑");  不包含当前索引元素，前者性能更好
+
+            $(":header").css("fontFamily","微软雅黑"); //选择所有的标题元素如h1,h2等 
+            $("div:lang(en)").css("fontFamily","微软雅黑");  //选择lang属性元素
+            $("div:lang(es)").css("fontFamily","Times New Roman"); 
+           
+            $("input[type=checkbox]").not(":checked").next("span").css("fontFamily","Times New Roman"); 
+            //==$("input:not(:checked) + span").css("fontFamily","Times New Roman"); 前者性能更好
+            
+            //如果文档的URI包含一个格式化的标识符，或hash（哈希）， 然后:target选择器将匹配ID和标识符相匹配的元素。  例如，给定的URI http://example.com/#foo，$( "p:target" )，将选择该跳转后的文档中<p id="foo">元素。
+            $("p:target").text("你好航旅纵横");
+            $("span:contains('Mary')").prev().attr("checked","checked");
+            $(".check").attr("name","jquery");
+            //A:contains('text') 包含text文本的选择器A元素  .prev([selector])同辈元素中紧挨的前一个，.prevAll([selector])同辈元素中所有前面的元素  .attr(attributeName)获取指定的属性值 .attr( attributeName, value )设置指定属性的属性值如果该属性不存在则添加
+            $("div").has(":header").css("color","red");//==$("div:has(':header')").css("color","red");前者性能更好  结果包含符合元素的子类
+
+            $("td").filter(":parent").fadeTo(1500, 0.3);//==$("td:parent").fadeTo(1500, 0.3); 前者性能更好，从选中的元素中筛选出父类
+    	})
+       
+       //自定义函数一定要放到$(function(){})外面
+       var changeit=function(){
+            var color = new Array("#FF3300","#66FF00","#3333FF","#FFFF00","#33FFFF","#CCCC00");
+            var i = Math.round(Math.random()*10);
+            if (i>5){
+                i = i-5;
+            }
+            $(".menu").css("color",color[i]);    
+        }
+        
+      /*  
+        可见性筛选
+            :hidden  筛选出不可见元素
+            :visible 筛选出可见元素
+        属性
+            [attribute|="value"]  //筛选出attribute属性以value值开头的元素对象 value-***形式的开头
+            [attribute*="value"]  //筛选出attribute属性值中包含value的元素对象
+            [attribute~="value"]  //筛选出attribute属性值中包含value的元素对象 value value1形式中间有空格
+            [attribute$="value"]  //筛选出attribute属性值中以value结尾的元素对象
+            [attribute="value"]   //筛选出attribute属性值==value的元素对象
+            [attribute!="value"   //筛选出attribute属性值不等于value的元素对象
+            [attribute^="value"]  //筛选出attribute属性值以value开头的元素对象  只要是字符串以value开头就行
+            [attribute]           //筛选出所有含有attribute属性的元素对象
+            [attribute="value"][attribute1="value1"]  //筛选出含有attribute=value且attribute1=value1的元素
+
+        表单筛选   除了:button和:input可以没有前面选择器 直接使用其他的选择器基本都是为input
+            :button
+            :checkbox
+            :checked
+            :disabled
+            :enabled
+            :focus
+            :file                   $("input:***")
+            :image
+            :input
+            :password
+            :radio
+            :reset
+            :selected
+            :submit
+            :text
+      */ 
+
+    </script>
+</body>
+</html>

@@ -1,2 +1,3 @@
-# push
-JQUERYAPI REVIEW
+###项目说明
+=======
+回顾jquety API中的一些内容
